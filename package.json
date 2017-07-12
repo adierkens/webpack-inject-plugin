@@ -1,0 +1,25 @@
+{
+  "name": "webpack-inject-plugin",
+  "version": "0.0.0",
+  "description": "A webpack plugin to dynamically inject code into the bundle.",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "nyc ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adierkens/webpack-inject-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "loader",
+    "inject"
+  ],
+  "author": "Adam Dierkens <adam@dierkens.com>",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/adierkens/webpack-inject-plugin/issues"
+  },
+  "homepage": "https://github.com/adierkens/webpack-inject-plugin#readme"
+}
