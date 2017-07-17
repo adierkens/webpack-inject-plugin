@@ -62,7 +62,7 @@
     "instrument": false
   },
   "xo": {
-    "spaces": true
+    "space": true
   },
   "devDependencies": {
     "ava": "~0.21.0",

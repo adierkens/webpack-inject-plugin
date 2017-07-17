@@ -3,13 +3,13 @@ import loaderUtils from 'loader-utils';
 import {registry} from './main';
 
 export default function (source) {
-	const options = loaderUtils.getOptions(this);
+  const options = loaderUtils.getOptions(this);
 
-	let func = _.noop;
+  let func = _.noop;
 
-	if (registry[options.id]) {
-		func = registry[options.id];
-	}
+  if (registry[options.id]) {
+    func = registry[options.id];
+  }
 
-	return func(source);
+  return func(source);
 }
