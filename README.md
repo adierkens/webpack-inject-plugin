@@ -3,7 +3,7 @@ A webpack plugin to dynamically inject code into the bundle.
 
 ## Usage
 
-```
+```javascript
 # webpack.config.js
 
 const InjectPlugin = require('webpack-inject-plugin');
