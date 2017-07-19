@@ -1,4 +1,4 @@
-# webpack-inject-plugin [![Build Status](https://travis-ci.org/adierkens/webpack-inject-plugin.svg?branch=master)](https://travis-ci.org/adierkens/webpack-inject-plugin) 
+# webpack-inject-plugin [![Build Status](https://travis-ci.org/adierkens/webpack-inject-plugin.svg?branch=master)](https://travis-ci.org/adierkens/webpack-inject-plugin) [![npm version](https://badge.fury.io/js/webpack-inject-plugin.svg)](https://badge.fury.io/js/webpack-inject-plugin)
 A webpack plugin to dynamically inject code into the bundle.
 
 ## Usage
