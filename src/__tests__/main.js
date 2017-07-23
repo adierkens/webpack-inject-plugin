@@ -1,6 +1,15 @@
 import test from 'ava';
-import {appendEntry} from '../main';
+import {injectEntry} from '../main';
 
 test('appends to the entry config correctly', t => {
-  t.is(appendEntry(undefined, 'foo'), 'foo');
+  t.is(injectEntry(undefined, 'foo'), 'foo');
+  t.deepEqual(injectEntry(['original'], 'added'), ['added', 'original']);
+  t.deepEqual(injectEntry('original', 'added'), ['added', 'original']);
+  t.deepEqual(injectEntry({
+    foo: 'bar',
+    another: ['an', 'array']
+  }, 'added'), {
+    foo: ['added', 'bar'],
+    another: ['added', 'an', 'array']
+  });
 });

@@ -4,17 +4,19 @@ import _ from 'lodash';
 const FAKE_MODULE_NAME = 'webpack-inject-plugin.module.js';
 const FAKE_LOADER_NAME = 'webpack-inject-plugin.loader.js';
 
-export function appendEntry(originalEntry, newEntry) {
+export function injectEntry(originalEntry, newEntry) {
+  // Last module in an array gets exported, so the injected one must not be
+  // last. https://webpack.github.io/docs/configuration.html#entry
   if (_.isArray(originalEntry)) {
-    return [...originalEntry, newEntry];
+    return [newEntry, ...originalEntry];
   }
 
   if (_.isObject(originalEntry)) {
-    return _.mapValues(originalEntry, _.partial(appendEntry, _, newEntry));
+    return _.mapValues(originalEntry, _.partial(injectEntry, _, newEntry));
   }
 
   if (_.isString(originalEntry)) {
-    return [originalEntry, newEntry];
+    return [newEntry, originalEntry];
   }
 
   return newEntry;
@@ -36,7 +38,7 @@ export default class WebpackInjectPlugin {
     registry[id] = this.loader;
 
     // Append an entry for our fake module
-    compiler.options.entry = appendEntry(compiler.options.entry, moduleLocation);
+    compiler.options.entry = injectEntry(compiler.options.entry, moduleLocation);
 
     // Add a loader for our fake module
     // The loader will be responsible for injecting the code for us
