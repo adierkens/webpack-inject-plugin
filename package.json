@@ -1,6 +1,6 @@
 {
   "name": "webpack-inject-plugin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A webpack plugin to dynamically inject code into the bundle.",
   "main": "dist/main.js",
   "scripts": {
@@ -33,13 +33,25 @@
     "lodash": "~4.17.4"
   },
   "babel": {
-    "plugins": [ "transform-runtime" ],
+    "plugins": [
+      "transform-runtime"
+    ],
     "presets": [
-      [ "env", { "targets": { "node": 4, "uglify": true } } ]
+      [
+        "env",
+        {
+          "targets": {
+            "node": 4,
+            "uglify": true
+          }
+        }
+      ]
     ],
     "env": {
       "test": {
-        "plugins": [ "istanbul" ]
+        "plugins": [
+          "istanbul"
+        ]
       }
     }
   },
