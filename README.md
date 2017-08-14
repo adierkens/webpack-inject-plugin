@@ -22,6 +22,10 @@ module.exports = {
 
 This webpack plugin accepts a single argument, a function to which returns the code to inject into the bundle.
 
+The function is called using the same context as the loader, so everything [here](https://webpack.js.org/api/loaders/#the-loader-context) applies.
+
+You can either return the raw content to load, or a `Promise` which resolves to the content, if you wish to be async.
+
 Though this could be used as a standalone plugin, you could also use it to create other webpack plugins, such as injecting code into the build based on a config file.
 
 Example:

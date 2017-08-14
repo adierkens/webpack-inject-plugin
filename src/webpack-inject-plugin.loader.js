@@ -11,5 +11,14 @@ export default function (source) {
     func = registry[options.id];
   }
 
-  return func(source);
+  const rtn = func.call(this, source);
+
+  if (rtn instanceof Promise) {
+    const callback = this.async();
+    rtn.then((result, err) => {
+      callback(err, result);
+    });
+  }
+
+  return rtn;
 }
