@@ -8,7 +8,7 @@ export function injectEntry(originalEntry, newEntry) {
   // Last module in an array gets exported, so the injected one must not be
   // last. https://webpack.github.io/docs/configuration.html#entry
   if (_.isArray(originalEntry)) {
-    return [newEntry, ...originalEntry];
+    return [...originalEntry.splice(0, originalEntry.length - 1), newEntry, ...originalEntry.splice(originalEntry.length - 1)];
   }
 
   if (_.isObject(originalEntry)) {
