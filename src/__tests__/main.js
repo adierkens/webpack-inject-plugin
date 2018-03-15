@@ -15,3 +15,14 @@ test('appends to the entry config correctly', t => {
     another: ['an', 'added', 'array']
   });
 });
+
+test('appends to only the specified entry', t => {
+  t.is(injectEntry(undefined, 'foo', 'bar'), 'foo');
+  t.deepEqual(injectEntry({
+    foo: 'bar',
+    bar: 'baz'
+  }, 'added', 'bar'), {
+    foo: 'bar',
+    bar: ['added', 'baz']
+  });
+});
