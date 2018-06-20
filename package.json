@@ -69,6 +69,7 @@
     "reporter": [
       "text",
       "html",
+      "lcov",
       "cobertura"
     ],
     "sourceMap": false,
@@ -85,6 +86,7 @@
     "babel-plugin-transform-runtime": "~6.23.0",
     "babel-preset-env": "~1.6.0",
     "babel-require": "~1.0.1",
+    "coveralls": "~3.0.1",
     "cross-env": "~5.0.1",
     "nyc": "~11.0.3",
     "xo": "~0.18.2"
