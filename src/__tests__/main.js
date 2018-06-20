@@ -17,12 +17,47 @@ test('appends to the entry config correctly', t => {
 });
 
 test('appends to only the specified entry', t => {
-  t.is(injectEntry(undefined, 'foo', 'bar'), 'foo');
+  t.is(injectEntry(undefined, 'foo', {entryName: 'bar'}), 'foo');
   t.deepEqual(injectEntry({
     foo: 'bar',
     bar: 'baz'
-  }, 'added', 'bar'), {
+  }, 'added', {entryName: 'bar'}), {
     foo: 'bar',
     bar: ['added', 'baz']
   });
+});
+
+test('respects config for order', t => {
+  t.deepEqual(injectEntry([
+    'foo',
+    'bar'
+  ], 'baz', {entryOrder: 'first'}), [
+    'baz',
+    'foo',
+    'bar'
+  ]);
+
+  t.deepEqual(injectEntry([
+    'foo',
+    'bar'
+  ], 'baz', {entryOrder: 'last'}), [
+    'foo',
+    'bar',
+    'baz'
+  ]);
+
+  t.deepEqual(injectEntry([
+    'foo',
+    'bar'
+  ], 'baz', {entryOrder: 'notLast'}), [
+    'foo',
+    'baz',
+    'bar'
+  ]);
+});
+
+test('order config for strings', t => {
+  t.deepEqual(injectEntry('original', 'new', {entryOrder: 'first'}), ['new', 'original']);
+  t.deepEqual(injectEntry('original', 'new', {entryOrder: 'last'}), ['original', 'new']);
+  t.deepEqual(injectEntry('original', 'new', {entryOrder: 'notLast'}), ['new', 'original']);
 });
