@@ -4,11 +4,33 @@ import _ from 'lodash';
 const FAKE_MODULE_NAME = 'webpack-inject-plugin.module.js';
 const FAKE_LOADER_NAME = 'webpack-inject-plugin.loader.js';
 
-export function injectEntry(originalEntry, newEntry, entryName) {
+export const ENTRY_ORDER = {
+  First: 'first',
+  Last: 'last',
+  NotLast: 'notLast'
+};
+
+function injectToArray(originalEntry, newEntry, entryOrder = 'notLast') {
+  if (!_.isArray(originalEntry)) {
+    throw new TypeError('Expected entry to be an array');
+  }
+
+  if (entryOrder === ENTRY_ORDER.First) {
+    return [newEntry, ...originalEntry];
+  } else if (entryOrder === ENTRY_ORDER.Last) {
+    return [...originalEntry, newEntry];
+  }
+  return [...originalEntry.splice(0, originalEntry.length - 1), newEntry, ...originalEntry.splice(originalEntry.length - 1)];
+}
+
+export function injectEntry(originalEntry, newEntry, options = {}) {
+  const {entryName, entryOrder} = options;
+
   // Last module in an array gets exported, so the injected one must not be
   // last. https://webpack.github.io/docs/configuration.html#entry
+
   if (_.isArray(originalEntry)) {
-    return [...originalEntry.splice(0, originalEntry.length - 1), newEntry, ...originalEntry.splice(originalEntry.length - 1)];
+    return injectToArray(originalEntry, newEntry, entryOrder);
   }
 
   if (_.isObject(originalEntry)) {
@@ -22,7 +44,7 @@ export function injectEntry(originalEntry, newEntry, entryName) {
   }
 
   if (_.isString(originalEntry)) {
-    return [newEntry, originalEntry];
+    return injectToArray([originalEntry], newEntry, entryOrder);
   }
 
   return newEntry;
@@ -45,7 +67,10 @@ export default class WebpackInjectPlugin {
     registry[id] = this.loader;
 
     // Append an entry for our fake module
-    compiler.options.entry = injectEntry(compiler.options.entry, moduleLocation, this.options.entry);
+    compiler.options.entry = injectEntry(compiler.options.entry, moduleLocation, {
+      entryName: this.options.entry,
+      entryOrder: this.options.order
+    });
 
     // Add a loader for our fake module
     // The loader will be responsible for injecting the code for us
