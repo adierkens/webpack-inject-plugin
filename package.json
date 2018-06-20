@@ -7,7 +7,9 @@
     "build": "babel -d dist src --ignore /'__tests__'/",
     "test": "cross-env NODE_ENV=test nyc ava",
     "posttest": "npm run lint",
-    "lint": "xo"
+    "lint": "xo",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "repository": {
     "type": "git",
@@ -79,6 +81,7 @@
     "space": true
   },
   "devDependencies": {
+    "all-contributors-cli": "~5.2.0",
     "ava": "~0.21.0",
     "babel-cli": "~6.24.1",
     "babel-plugin-istanbul": "~4.1.4",
