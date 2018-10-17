@@ -9,7 +9,7 @@ A webpack plugin to dynamically inject code into the bundle.
 ```javascript
 # webpack.config.js
 
-const InjectPlugin = require('webpack-inject-plugin');
+const InjectPlugin = require('webpack-inject-plugin').default;
 
 
 module.exports = {
