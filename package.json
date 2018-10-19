@@ -8,6 +8,8 @@
     "build:watch": "tsc -- --watch",
     "lint": "tslint . --format stylish",
     "test": "jest",
+    "posttest": "npm run test:example",
+    "test:example": "cd example && webpack && cat dist/main.js | grep \"console.log('hello world')\"",
     "test:watch": "npm run test -- --watch",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"

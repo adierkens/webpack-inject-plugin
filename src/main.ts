@@ -127,7 +127,7 @@ export default class WebpackInjectPlugin {
       test: /webpack-inject-plugin\.module\.js/,
       use: [
         {
-          loader: path.relative(__dirname, FAKE_LOADER_NAME),
+          loader: path.join(__dirname, FAKE_LOADER_NAME),
           query: { id }
         }
       ]
