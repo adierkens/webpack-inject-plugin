@@ -63,7 +63,7 @@ export default class MyPlugin {
     }
 
     apply(compiler) {
-        compiler.apply(new InjectPlugin(customLoader(this.options)));
+        new InjectPlugin(customLoader(this.options)).apply(compiler);
     }
 }
 ```
