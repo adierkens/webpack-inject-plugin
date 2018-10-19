@@ -4,10 +4,12 @@
   "description": "A webpack plugin to dynamically inject code into the bundle.",
   "main": "dist/main.js",
   "scripts": {
-    "build": "babel -d dist src --ignore /'__tests__'/",
-    "test": "cross-env NODE_ENV=test nyc ava",
-    "posttest": "npm run lint",
-    "lint": "xo",
+    "build": "tsc",
+    "build:watch": "tsc -- --watch",
+    "lint": "tslint . --format stylish",
+    "test": "jest",
+    "test:example": "cd example && webpack && cat dist/main.js | grep \"console.log('hello world')\"",
+    "test:watch": "npm run test -- --watch",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
@@ -25,73 +27,48 @@
     "registry": "https://registry.npmjs.org"
   },
   "author": "Adam Dierkens <adam@dierkens.com>",
-  "license": "Beerware",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/adierkens/webpack-inject-plugin/issues"
   },
   "homepage": "https://github.com/adierkens/webpack-inject-plugin#readme",
+  "peerDependencies": {
+    "webpack": ">=4.0.0"
+  },
   "dependencies": {
-    "loader-utils": "~1.1.0",
-    "lodash": "~4.17.4"
-  },
-  "babel": {
-    "plugins": [
-      "transform-object-rest-spread",
-      "transform-runtime"
-    ],
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": 4,
-            "uglify": true
-          }
-        }
-      ]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "source": [
-      "**/*.js",
-      "!__tests__/**/*"
-    ]
-  },
-  "nyc": {
-    "reporter": [
-      "text",
-      "html",
-      "lcov",
-      "cobertura"
-    ],
-    "sourceMap": false,
-    "instrument": false
-  },
-  "xo": {
-    "space": true
+    "@types/loader-utils": "^1.1.3",
+    "@types/webpack": "^4.4.17",
+    "loader-utils": "~1.1.0"
   },
   "devDependencies": {
-    "all-contributors-cli": "~5.2.0",
-    "ava": "~0.21.0",
-    "babel-cli": "~6.24.1",
-    "babel-plugin-istanbul": "~4.1.4",
-    "babel-plugin-transform-object-rest-spread": "~6.26.0",
-    "babel-plugin-transform-runtime": "~6.23.0",
-    "babel-preset-env": "~1.6.0",
-    "babel-require": "~1.0.1",
-    "coveralls": "~3.0.1",
-    "cross-env": "~5.0.1",
-    "nyc": "~11.0.3",
-    "xo": "~0.18.2"
+    "@types/jest": "^23.3.5",
+    "all-contributors-cli": "^5.4.0",
+    "husky": "^1.1.2",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
+    "ts-jest": "^23.10.4",
+    "ts-lint": "^4.5.1",
+    "tslint": "~5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-xo": "^0.9.0",
+    "tsutils": "~3.1.0",
+    "typescript": "^3.1.3",
+    "webpack": "~4.21.0",
+    "webpack-cli": "~3.1.2"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --parser typescript --write",
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }
