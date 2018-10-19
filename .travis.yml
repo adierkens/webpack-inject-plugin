@@ -1,5 +1,11 @@
 language: node_js
 node_js:
     - "stable"
+
+script:
+    - npm run build
+    - npm run test
+    - npm run test:example
+
 after_success:
     cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
