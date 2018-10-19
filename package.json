@@ -26,7 +26,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "author": "Adam Dierkens <adam@dierkens.com>",
-  "license": "Beerware",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/adierkens/webpack-inject-plugin/issues"
   },
