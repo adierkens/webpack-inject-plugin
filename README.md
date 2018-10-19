@@ -1,6 +1,6 @@
 # webpack-inject-plugin 
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
-[![Build Status](https://travis-ci.org/adierkens/webpack-inject-plugin.svg?branch=master)](https://travis-ci.org/adierkens/webpack-inject-plugin) [![npm version](https://badge.fury.io/js/webpack-inject-plugin.svg)](https://badge.fury.io/js/webpack-inject-plugin) [![npm](https://img.shields.io/npm/dt/webpack-inject-plugin.svg)](https://www.npmjs.com/package/webpack-inject-plugin) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![Coverage Status](https://coveralls.io/repos/github/adierkens/webpack-inject-plugin/badge.svg?branch=master)](https://coveralls.io/github/adierkens/webpack-inject-plugin?branch=master)
+[![CircleCI](https://circleci.com/gh/adierkens/webpack-inject-plugin/tree/master.svg?style=svg)](https://circleci.com/gh/adierkens/webpack-inject-plugin/tree/master) [![npm version](https://badge.fury.io/js/webpack-inject-plugin.svg)](https://badge.fury.io/js/webpack-inject-plugin) [![npm](https://img.shields.io/npm/dt/webpack-inject-plugin.svg)](https://www.npmjs.com/package/webpack-inject-plugin) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![Coverage Status](https://coveralls.io/repos/github/adierkens/webpack-inject-plugin/badge.svg?branch=master)](https://coveralls.io/github/adierkens/webpack-inject-plugin?branch=master)
 
 A webpack plugin to dynamically inject code into the bundle.
 
