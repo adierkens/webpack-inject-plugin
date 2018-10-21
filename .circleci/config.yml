@@ -3,13 +3,18 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
+general: 
+  artifacts:
+    coverage/
+
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.11.3
 
-    working_directory: ~/repo
+    working_directory: ~/inject
 
     steps:
       - checkout
@@ -35,4 +40,64 @@ jobs:
       - run: npm run test:example
 
 
+lint:
+  <<: *defaults
+  steps: 
+    - attach_workspace:
+        at: ~/inject
+    - run:
+        name: 'Lint'
+        command: npm run lint
 
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/inject
+      - run:
+          name: 'Test'
+          command: npm run test
+          environment:
+            JEST_JUNIT_OUTPUT: "coverage/junitjunit.xml"
+      - store_test_results:
+          path: coverage/junit
+      - store_artifacts:
+          path: coverage/junit
+      - run:
+          name: Send CodeCov Results
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY
+  
+  integration:
+    <<: *defaults
+    - attach_workspace:
+          at: ~/inject
+    - run:
+        name: 'Integration Test'
+        command: npm run test:example
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - lint:
+          requires: 
+            - build
+          filters:
+            tags:
+              only: /.*/
+      - test:
+          requires:
+              - build
+          filters:
+            tags:
+              only: /.*/
+      - integration:
+          requires:
+              - build
+          filters:
+            tags:
+              only: /.*/
