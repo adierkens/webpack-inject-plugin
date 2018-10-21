@@ -8,13 +8,15 @@ general:
   artifacts:
     coverage/
 
+
+defaults: &defaults
+  working_directory: ~/inject
+  docker:
+    - image: circleci/node:latest-browsers
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.11.3
-
-    working_directory: ~/inject
+    <<: *defaults
 
     steps:
       - checkout
