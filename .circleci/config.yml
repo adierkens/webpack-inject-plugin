@@ -42,14 +42,14 @@ jobs:
       - run: npm run test:example
 
 
-lint:
-  <<: *defaults
-  steps: 
-    - attach_workspace:
-        at: ~/inject
-    - run:
-        name: 'Lint'
-        command: npm run lint
+  lint:
+    <<: *defaults
+    steps: 
+      - attach_workspace:
+          at: ~/inject
+      - run:
+          name: 'Lint'
+          command: npm run lint
 
   test:
     <<: *defaults
