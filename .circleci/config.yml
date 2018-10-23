@@ -71,11 +71,12 @@ lint:
   
   integration:
     <<: *defaults
-    - attach_workspace:
-          at: ~/inject
-    - run:
-        name: 'Integration Test'
-        command: npm run test:example
+    steps:
+      - attach_workspace:
+            at: ~/inject
+      - run:
+          name: 'Integration Test'
+          command: npm run test:example
 
 workflows:
   version: 2
