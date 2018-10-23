@@ -3,13 +3,20 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
+general: 
+  artifacts:
+    coverage/
+
+
+defaults: &defaults
+  working_directory: ~/inject
+  docker:
+    - image: circleci/node:latest-browsers
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.11.3
-
-    working_directory: ~/repo
+    <<: *defaults
 
     steps:
       - checkout
@@ -17,22 +24,88 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            # Find a cache corresponding to this specific package.json checksum
+            # when this file is changed, this key will fail
+            - inject-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - inject-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - inject-{{ .Branch }}
+            # Find the most recent cache used from any branch
+            - inject-master
+            - inject-
 
       - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
         
       - run: npm run build
 
-      - run: npm test
-      
-      - run: npm run test:example
+      - save_cache:
+          key: inject-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+          paths:
+            - ~/.cache/yarn
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+              - .
 
+  lint:
+    <<: *defaults
+    steps: 
+      - attach_workspace:
+          at: ~/inject
+      - run:
+          name: 'Lint'
+          command: npm run lint
 
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/inject
+      - run:
+          name: 'Test'
+          command: npm run test
+          environment:
+            JEST_JUNIT_OUTPUT: "coverage/junitjunit.xml"
+      - store_test_results:
+          path: coverage/junit
+      - store_artifacts:
+          path: coverage/junit
+      - run:
+          name: Send CodeCov Results
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY
+  
+  integration:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+            at: ~/inject
+      - run:
+          name: 'Integration Test'
+          command: npm run test:example
 
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - lint:
+          requires: 
+            - build
+          filters:
+            tags:
+              only: /.*/
+      - test:
+          requires:
+              - build
+          filters:
+            tags:
+              only: /.*/
+      - integration:
+          requires:
+              - build
+          filters:
+            tags:
+              only: /.*/
