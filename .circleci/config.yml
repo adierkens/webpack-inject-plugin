@@ -24,23 +24,28 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            # Find a cache corresponding to this specific package.json checksum
+            # when this file is changed, this key will fail
+            - inject-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - inject-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - inject-{{ .Branch }}
+            # Find the most recent cache used from any branch
+            - inject-master
+            - inject-
 
       - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
         
       - run: npm run build
 
-      - run: npm test
-      
-      - run: npm run test:example
-
+      - save_cache:
+          key: inject-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+          paths:
+            - ~/.cache/yarn
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+              - .
 
   lint:
     <<: *defaults
