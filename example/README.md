@@ -10,5 +10,5 @@ console.log('hello world');
 statement at the end of the bundle: 
 
 ```bash
-  cat dist/main.js | grep 'console'
-  ```
+cat dist/main.js | grep 'console'
+```
