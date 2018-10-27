@@ -4,6 +4,8 @@
 
 A webpack plugin to dynamically inject code into the bundle.
 
+You can check out an example [here](./example)
+
 ## Usage
 
 ```javascript
