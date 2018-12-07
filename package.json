@@ -12,7 +12,8 @@
     "test:watch": "npm run test -- --watch",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
-    "release": "./.circleci/release.sh"
+    "release": "bash ./.circleci/release.sh",
+    "postinstall": "bash ./.circleci/semver-check.sh"
   },
   "repository": {
     "type": "git",
