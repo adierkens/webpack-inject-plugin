@@ -9,7 +9,7 @@ if [ ! -z "$VERSION" ]; then
   echo SemVer Bump: $VERSION
 
   ## Update Changelog
-  auto changelog
+  auto changelog --no-version-prefix
 
   ## Publish Package
   npm version $VERSION -m "Bump version to: %s [skip ci]"
@@ -17,5 +17,5 @@ if [ ! -z "$VERSION" ]; then
 
   ## Create Gitub Release
   git push --follow-tags --set-upstream origin $branch
-  auto release
+  auto release --no-version-prefix
 fi
