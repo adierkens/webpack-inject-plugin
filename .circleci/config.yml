@@ -26,8 +26,8 @@ jobs:
           keys:
             # Find a cache corresponding to this specific package.json checksum
             # when this file is changed, this key will fail
-            - inject-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
-            - inject-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - inject-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+            - inject-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - inject-{{ .Branch }}
             # Find the most recent cache used from any branch
             - inject-master
@@ -38,7 +38,7 @@ jobs:
       - run: npm run build
 
       - save_cache:
-          key: inject-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+          key: inject-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
           paths:
             - ~/.cache/yarn
             - node_modules
