@@ -34,6 +34,7 @@ jobs:
       - run: npm ci
 
       - run: npm run build
+      - run: bash ./.circleci/semver-check.sh
 
       - save_cache:
           key: inject-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
