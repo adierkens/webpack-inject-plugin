@@ -1,4 +1,8 @@
 #!/bin/sh
+git config --global user.email "adam@dierkens.com"
+git config --global user.name "Adam Dierkens"
+git config --global push.default matching
+
 VERSION=`auto version`
 
 if [ ! -z "$VERSION" ]; then
