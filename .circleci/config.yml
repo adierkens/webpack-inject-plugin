@@ -31,7 +31,7 @@ jobs:
             - inject-master
             - inject-
 
-      - run: npm install
+      - run: npm ci
 
       - run: npm run build
 
