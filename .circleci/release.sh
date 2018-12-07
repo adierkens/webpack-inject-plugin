@@ -10,12 +10,21 @@ if [ ! -z "$VERSION" ]; then
 
   ## Update Changelog
   auto changelog --no-version-prefix
+  
+  echo "Created CHANGELOG"
 
   ## Publish Package
-  npm version $VERSION -m "Bump version to: %s [skip ci]"
+  npm version "$VERSION" -m "Bump version to: %s [skip ci]"
+
+  echo "Updated VERSION"
+
   npm publish
+
+  echo "Published"
 
   ## Create Gitub Release
   git push --follow-tags --set-upstream origin $branch
   auto release --no-version-prefix
+
+  echo "Released"
 fi
