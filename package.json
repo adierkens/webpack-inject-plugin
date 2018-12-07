@@ -11,7 +11,8 @@
     "test:example": "cd example && webpack && cat dist/main.js | grep \"console.log('hello world')\"",
     "test:watch": "npm run test -- --watch",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "release": "./.circleci/release.sh"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.5",
     "all-contributors-cli": "^5.4.0",
+    "auto-release-cli": "^0.20.19",
     "husky": "^1.1.2",
     "jest": "^23.6.0",
     "lint-staged": "^7.3.0",
