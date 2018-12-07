@@ -4,10 +4,8 @@
 #
 version: 2
 
-general: 
-  artifacts:
-    coverage/
-
+general:
+  artifacts: coverage/
 
 defaults: &defaults
   working_directory: ~/inject
@@ -34,7 +32,7 @@ jobs:
             - inject-
 
       - run: npm install
-        
+
       - run: npm run build
 
       - save_cache:
@@ -45,11 +43,11 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - .
+            - .
 
   lint:
     <<: *defaults
-    steps: 
+    steps:
       - attach_workspace:
           at: ~/inject
       - run:
@@ -65,7 +63,7 @@ jobs:
           name: 'Test'
           command: npm run test
           environment:
-            JEST_JUNIT_OUTPUT: "coverage/junitjunit.xml"
+            JEST_JUNIT_OUTPUT: 'coverage/junitjunit.xml'
       - store_test_results:
           path: coverage/junit
       - store_artifacts:
@@ -73,16 +71,26 @@ jobs:
       - run:
           name: Send CodeCov Results
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY
-  
+
   integration:
     <<: *defaults
     steps:
       - attach_workspace:
-            at: ~/inject
+          at: ~/inject
       - run:
           name: 'Integration Test'
           command: npm run test:example
 
+  release:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/inject
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - ? run
+        name: Release
+        command: npm run release
 workflows:
   version: 2
   build_and_test:
@@ -92,20 +100,28 @@ workflows:
             tags:
               only: /.*/
       - lint:
-          requires: 
+          requires:
             - build
           filters:
             tags:
               only: /.*/
       - test:
           requires:
-              - build
+            - build
           filters:
             tags:
               only: /.*/
       - integration:
           requires:
-              - build
+            - build
           filters:
             tags:
               only: /.*/
+      - release:
+          requires:
+            - integration
+            - test
+          filters:
+            branches:
+              only:
+                - master
