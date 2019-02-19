@@ -1,21 +1,21 @@
-import { Compiler, Entry, EntryFunc } from 'webpack';
+import { randomBytes } from 'crypto';
 import path from 'path';
+import { Compiler, Entry, EntryFunc } from 'webpack';
 
 type EntryType = string | string[] | Entry | EntryFunc;
 
-const FAKE_MODULE_NAME = 'webpack-inject-plugin.module.js';
-const FAKE_LOADER_NAME = 'webpack-inject-plugin.loader.js';
+const FAKE_LOADER_NAME = 'webpack-inject-plugin.loader';
 
 export type Loader = () => string;
-
-let ID = 1;
 
 export const registry: {
   [key: string]: Loader;
 } = {};
 
 function getUniqueID() {
-  return `webpack-inject-module-${++ID}`;
+  const id = randomBytes(2).toString('hex');
+
+  return `webpack-inject-module-${id}`;
 }
 
 export const enum ENTRY_ORDER {
@@ -102,14 +102,14 @@ export default class WebpackInjectPlugin {
   }
 
   apply(compiler: Compiler) {
-    const moduleLocation = path.join(__dirname, FAKE_MODULE_NAME);
-
     const id = getUniqueID();
+    const newEntry = path.resolve(__dirname, `${FAKE_LOADER_NAME}?id=${id}!`);
+
     registry[id] = this.loader;
 
     compiler.options.entry = injectEntry(
       compiler.options.entry,
-      moduleLocation,
+      newEntry,
       this.options
     );
 
@@ -122,15 +122,5 @@ export default class WebpackInjectPlugin {
     if (compiler.options.module.rules === undefined) {
       compiler.options.module.rules = [];
     }
-
-    compiler.options.module.rules.push({
-      test: /webpack-inject-plugin\.module\.js/,
-      use: [
-        {
-          loader: path.join(__dirname, FAKE_LOADER_NAME),
-          query: { id }
-        }
-      ]
-    });
   }
 }
