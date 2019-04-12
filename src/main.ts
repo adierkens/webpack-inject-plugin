@@ -3,6 +3,8 @@ import path from 'path';
 import { Compiler, Entry, EntryFunc } from 'webpack';
 
 type EntryType = string | string[] | Entry | EntryFunc;
+type EntryFilterFunction = (entryName: string) => boolean;
+type EntryFilterType = string | EntryFilterFunction;
 
 const FAKE_LOADER_NAME = 'webpack-inject-plugin.loader';
 
@@ -25,7 +27,7 @@ export const enum ENTRY_ORDER {
 }
 
 export interface IInjectOptions {
-  entryName?: string;
+  entryName?: EntryFilterType;
   entryOrder?: ENTRY_ORDER;
 }
 
@@ -49,6 +51,24 @@ function injectToArray(
   ];
 }
 
+function createEntryFilter(
+  filterOption?: EntryFilterType
+): EntryFilterFunction {
+  if (filterOption === null || filterOption === undefined) {
+    return () => true;
+  }
+
+  if (typeof filterOption === 'string') {
+    return (entryName: string) => filterOption === entryName;
+  }
+
+  if (typeof filterOption === 'function') {
+    return filterOption;
+  }
+
+  throw new Error(`Unknown entry filter: ${typeof filterOption}`);
+}
+
 export function injectEntry(
   originalEntry: EntryType | undefined,
   newEntry: string,
@@ -57,6 +77,8 @@ export function injectEntry(
   if (originalEntry === undefined) {
     return newEntry;
   }
+
+  const filterFunc = createEntryFilter(options.entryName);
 
   // Last module in an array gets exported, so the injected one must not be
   // last. https://webpack.github.io/docs/configuration.html#entry
@@ -71,11 +93,8 @@ export function injectEntry(
 
   if (originalEntry === Object(originalEntry)) {
     return Object.entries(originalEntry).reduce(
-      (a: { [key: string]: EntryType }, [key, entry]) => {
-        if (
-          !options.entryName ||
-          (options.entryName && options.entryName === key)
-        ) {
+      (a: Record<string, EntryType>, [key, entry]) => {
+        if (filterFunc(key)) {
           a[key] = injectEntry(entry, newEntry, options);
         } else {
           a[key] = entry;
@@ -112,15 +131,5 @@ export default class WebpackInjectPlugin {
       newEntry,
       this.options
     );
-
-    if (compiler.options.module === undefined) {
-      compiler.options.module = {
-        rules: []
-      };
-    }
-
-    if (compiler.options.module.rules === undefined) {
-      compiler.options.module.rules = [];
-    }
   }
 }

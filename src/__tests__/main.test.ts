@@ -45,6 +45,26 @@ describe('injectEntry', () => {
     });
   });
 
+  it('supports a filter function', () => {
+    expect(
+      injectEntry({ foo: 'bar', bar: 'baz', baz: 'blah' }, 'added', {
+        entryName: e => e !== 'bar'
+      })
+    ).toEqual({
+      foo: ['added', 'bar'],
+      bar: 'baz',
+      baz: ['added', 'blah']
+    });
+  });
+
+  it('throws error for unknown filter type', () => {
+    expect(() => {
+      injectEntry('bar', 'foo', {
+        entryName: { not: 'a function ' } as any
+      });
+    }).toThrowError();
+  });
+
   it('respects the config for ordering', () => {
     expect(
       injectEntry(['foo', 'bar'], 'baz', { entryOrder: ENTRY_ORDER.First })

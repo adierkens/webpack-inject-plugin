@@ -8,7 +8,7 @@ module.exports = {
       tsConfig: 'tsconfig.json'
     }
   },
-  testMatch: ['**/__tests__/*.test.+(ts|tsx|js)'],
+  testMatch: ['/**/src/**/__tests__/*.test.+(ts|tsx|js)'],
   collectCoverage: true,
   coverageDirectory: './coverage',
   coverageReporters: ['cobertura', 'html', 'lcov']
