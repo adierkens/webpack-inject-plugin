@@ -30,6 +30,9 @@ This webpack plugin accepts a single argument, a function to which returns the c
 
 The function is called using the same context as the loader, so everything [here](https://webpack.js.org/api/loaders/#the-loader-context) applies.
 
+You can either return the raw content to load, or a `Promise` which resolves to the content, if you wish to be async.
+
+
 ### options
 
 You can also pass in more options:
@@ -61,8 +64,6 @@ new InjectPlugin(loader, {
   entryName: key => key !== 'foo'
 });
 ```
-
-You can either return the raw content to load, or a `Promise` which resolves to the content, if you wish to be async.
 
 ## Additional Use Cases
 
