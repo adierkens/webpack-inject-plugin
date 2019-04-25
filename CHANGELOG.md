@@ -1,3 +1,24 @@
+# v1.5.0 (Thu Apr 25 2019)
+
+#### 🚀  Enhancement
+
+- feat(plugin): Change how ID are handled for the injected loader [#27](https://github.com/adierkens/webpack-inject-plugin/pull/27) ([@mems](https://github.com/mems))
+
+#### 📝  Documentation
+
+- fix(doc): rename entry order option name [#26](https://github.com/adierkens/webpack-inject-plugin/pull/26) ([@mems](https://github.com/mems))
+
+#### ⚠️  Pushed to master
+
+- Fix type resolution for id  ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 2
+
+- Memmie Lenglet ([@mems](https://github.com/mems))
+- [@adierkens](https://github.com/adierkens)
+
+---
+
 # v1.2.0 (Fri Apr 12 2019)
 
 #### 🚀  Enhancement
