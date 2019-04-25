@@ -119,12 +119,12 @@ export default class WebpackInjectPlugin {
     this.options = {
       entryName: (options && options.entryName) || undefined,
       entryOrder: (options && options.entryOrder) || ENTRY_ORDER.NotLast,
-      loaderID: (options && options.loaderID) || getUniqueID(),
+      loaderID: (options && options.loaderID) || getUniqueID()
     };
   }
 
   apply(compiler: Compiler) {
-    const id = this.options.loaderID;
+    const id = this.options.loaderID!;
     const newEntry = path.resolve(__dirname, `${FAKE_LOADER_NAME}?id=${id}!`);
 
     registry[id] = this.loader;
