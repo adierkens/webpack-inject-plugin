@@ -65,6 +65,12 @@ new InjectPlugin(loader, {
 });
 ```
 
+### options.loaderID
+
+> `string`
+
+An optional uniquie ID for the injected loader. If omitted, one will automatically be generated for you. 
+
 ## Additional Use Cases
 
 Though this could be used as a standalone plugin, you could also use it to create other webpack plugins, such as injecting code into the build based on a config file.
