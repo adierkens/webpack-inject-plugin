@@ -42,9 +42,9 @@ import InjectPlugin, { ENTRY_ORDER } from 'webpack-inject-plugin';
 
 new InjectPlugin(loader, {
     entryName: 'entry name',         //  Limit the injected code to only the entry w/ this name
-    order:     ENTRY_ORDER.First     //  Make the injected code be the first entry point
-               ENTRY_ORDER.Last      //  Make the injected code be the last entry point
-               ENTRY_ORDER.NotLast   //  Make the injected code be second to last. (The last entry module is the API of the bundle. Useful when you don't want to override that.) This is the default.
+    entryOrder: ENTRY_ORDER.First    //  Make the injected code be the first entry point
+                ENTRY_ORDER.Last     //  Make the injected code be the last entry point
+                ENTRY_ORDER.NotLast  //  Make the injected code be second to last. (The last entry module is the API of the bundle. Useful when you don't want to override that.) This is the default.
 });
 ```
 
