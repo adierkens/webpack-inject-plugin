@@ -14,8 +14,9 @@ export const registry: {
   [key: string]: Loader;
 } = {};
 
+let uniqueIDCounter = 0;
 function getUniqueID() {
-  const id = randomBytes(2).toString('hex');
+  const id = (++uniqueIDCounter).toString(16);
 
   return `webpack-inject-module-${id}`;
 }
@@ -29,6 +30,7 @@ export const enum ENTRY_ORDER {
 export interface IInjectOptions {
   entryName?: EntryFilterType;
   entryOrder?: ENTRY_ORDER;
+  loaderID?: string;
 }
 
 function injectToArray(
@@ -116,12 +118,13 @@ export default class WebpackInjectPlugin {
     this.loader = loader;
     this.options = {
       entryName: (options && options.entryName) || undefined,
-      entryOrder: (options && options.entryOrder) || ENTRY_ORDER.NotLast
+      entryOrder: (options && options.entryOrder) || ENTRY_ORDER.NotLast,
+      loaderID: (options && options.loaderID) || getUniqueID(),
     };
   }
 
   apply(compiler: Compiler) {
-    const id = getUniqueID();
+    const id = this.options.loaderID;
     const newEntry = path.resolve(__dirname, `${FAKE_LOADER_NAME}?id=${id}!`);
 
     registry[id] = this.loader;
