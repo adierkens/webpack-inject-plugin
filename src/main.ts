@@ -22,7 +22,7 @@ function getUniqueID() {
 }
 
 export const enum ENTRY_ORDER {
-  First,
+  First = 1,
   Last,
   NotLast
 }
