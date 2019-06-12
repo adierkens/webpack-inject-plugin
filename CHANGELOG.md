@@ -1,3 +1,20 @@
+# v1.5.1 (Wed Jun 12 2019)
+
+#### 🐛  Bug Fix
+
+- fix: entryOrder First [#29](https://github.com/adierkens/webpack-inject-plugin/pull/29) ([@deini](https://github.com/deini))
+
+#### 📝  Documentation
+
+- Add loaderID to README [#28](https://github.com/adierkens/webpack-inject-plugin/pull/28) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 2
+
+- Daniel Almaguer ([@deini](https://github.com/deini))
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v1.5.0 (Thu Apr 25 2019)
 
 #### 🚀  Enhancement
