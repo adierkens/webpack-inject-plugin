@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -- --watch",
+    "build:watch": "tsc --watch",
     "lint": "tslint . --format stylish",
     "test": "jest",
     "test:example": "cd example && webpack && npm run test:example:first && npm run test:example:second",
