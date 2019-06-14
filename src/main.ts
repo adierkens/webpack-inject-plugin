@@ -21,7 +21,7 @@ function getUniqueID() {
   return `webpack-inject-module-${id}`;
 }
 
-export const enum ENTRY_ORDER {
+export enum ENTRY_ORDER {
   First = 1,
   Last,
   NotLast
