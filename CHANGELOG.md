@@ -1,3 +1,15 @@
+# v1.5.2 (Fri Jun 14 2019)
+
+#### 🐛  Bug Fix
+
+- fix: export ENTRY_ORDER [#30](https://github.com/adierkens/webpack-inject-plugin/pull/30) ([@deini](https://github.com/deini))
+
+#### Authors: 1
+
+- Daniel Almaguer ([@deini](https://github.com/deini))
+
+---
+
 # v1.5.1 (Wed Jun 12 2019)
 
 #### 🐛  Bug Fix
