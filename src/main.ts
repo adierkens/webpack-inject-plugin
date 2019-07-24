@@ -94,11 +94,11 @@ export function injectEntry(
   }
 
   if (typeof originalEntry === 'function') {
-    const callbaclOriginEntry = originalEntry();
-    if (callbaclOriginEntry instanceof Promise) { // can't handle Promise
+    const callbackOriginEntry = originalEntry();
+    if (callbackOriginEntry instanceof Promise) { // can't handle Promise
       return originalEntry;
     }
-    return injectEntry(callbaclOriginEntry, newEntry, options);
+    return injectEntry(callbackOriginEntry, newEntry, options);
   }
 
   if (Object.prototype.toString.call(originalEntry).slice(8, -1) === 'Object') {
