@@ -33,6 +33,13 @@ describe('injectEntry', () => {
       foo: ['added', 'bar'],
       another: ['an', 'added', 'array']
     });
+    expect(
+      injectEntry(
+        () => ({ foo: 'bar' }),
+        'added',
+        {}
+      )
+    ).toEqual({ foo: ['added', 'bar'] });
   });
 
   it('appends to only the specified entry', () => {
