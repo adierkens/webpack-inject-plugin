@@ -93,7 +93,15 @@ export function injectEntry(
     return injectToArray(originalEntry, newEntry, options.entryOrder);
   }
 
-  if (originalEntry === Object(originalEntry)) {
+  if (typeof originalEntry === 'function') {
+    const callbackOriginEntry = originalEntry();
+    if (callbackOriginEntry instanceof Promise) { // can't handle Promise
+      return originalEntry;
+    }
+    return injectEntry(callbackOriginEntry, newEntry, options);
+  }
+
+  if (Object.prototype.toString.call(originalEntry).slice(8, -1) === 'Object') {
     return Object.entries(originalEntry).reduce(
       (a: Record<string, EntryType>, [key, entry]) => {
         if (filterFunc(key)) {
