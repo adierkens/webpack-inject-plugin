@@ -1,3 +1,15 @@
+# v1.5.3 (Thu Aug 01 2019)
+
+#### 🐛  Bug Fix
+
+- Fix if entry is a function [#31](https://github.com/adierkens/webpack-inject-plugin/pull/31) ([@chvin](https://github.com/chvin))
+
+#### Authors: 1
+
+- Chvin ([@chvin](https://github.com/chvin))
+
+---
+
 # v1.5.2 (Fri Jun 14 2019)
 
 #### 🐛  Bug Fix
