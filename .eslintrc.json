@@ -1,0 +1,27 @@
+{
+  "env": { "node": true, "es6": true },
+  "extends": ["eslint:recommended", "xo", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "eslint-plugin-no-explicit-type-exports"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "no-explicit-type-exports/no-explicit-type-exports": 2,
+    "no-unused-vars": ["off"],
+    "no-undef": ["off"],
+    "no-unused-expressions": ["off"]
+  }
+}
