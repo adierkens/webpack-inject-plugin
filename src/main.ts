@@ -95,9 +95,11 @@ export function injectEntry(
 
   if (typeof originalEntry === 'function') {
     const callbackOriginEntry = originalEntry();
-    if (callbackOriginEntry instanceof Promise) { // can't handle Promise
+    if (callbackOriginEntry instanceof Promise) {
+      // Can't handle Promise
       return originalEntry;
     }
+
     return injectEntry(callbackOriginEntry, newEntry, options);
   }
 
@@ -109,6 +111,7 @@ export function injectEntry(
         } else {
           a[key] = entry;
         }
+
         return a;
       },
       {}
@@ -120,6 +123,7 @@ export function injectEntry(
 
 export default class WebpackInjectPlugin {
   private readonly options: IInjectOptions;
+
   private readonly loader: Loader;
 
   constructor(loader: Loader, options?: IInjectOptions) {
