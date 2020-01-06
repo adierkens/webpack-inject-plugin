@@ -1,3 +1,4 @@
+import { EntryFunc } from 'webpack';
 import { injectEntry, ENTRY_ORDER } from '../main';
 
 describe('injectEntry', () => {
@@ -33,13 +34,20 @@ describe('injectEntry', () => {
       foo: ['added', 'bar'],
       another: ['an', 'added', 'array']
     });
-    expect(
-      injectEntry(
-        () => ({ foo: 'bar' }),
-        'added',
-        {}
-      )
-    ).toEqual({ foo: ['added', 'bar'] });
+
+    // This dynamic entry function will return {foo: bar} on first call, then {foo: baz} on the next call
+    let first = true;
+    const entryFunc = injectEntry(
+      async () => {
+        return { foo: first ? 'bar' : 'baz' };
+      },
+      'added',
+      {}
+    ) as EntryFunc;
+
+    expect(entryFunc()).resolves.toEqual({ foo: ['added', 'bar'] });
+    first = false;
+    expect(entryFunc()).resolves.toEqual({ foo: ['added', 'baz'] });
   });
 
   it('appends to only the specified entry', () => {

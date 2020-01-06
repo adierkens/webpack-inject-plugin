@@ -94,13 +94,15 @@ export function injectEntry(
   }
 
   if (typeof originalEntry === 'function') {
-    const callbackOriginEntry = originalEntry();
-    if (callbackOriginEntry instanceof Promise) {
-      // Can't handle Promise
-      return originalEntry;
-    }
+    // The entry function is meant to be called on each compilation (when using --watch, webpack-dev-server)
+    // We wrap the original function in our own function to reflect this behavior.
+    return async () => {
+      const callbackOriginEntry = await originalEntry();
 
-    return injectEntry(callbackOriginEntry, newEntry, options);
+      // Safe type-cast here because callbackOriginEntry cannot be an EntryFunc,
+      // so the injectEntry call won't return one either.
+      return injectEntry(callbackOriginEntry, newEntry, options) as Exclude<EntryType, EntryFunc>
+    };
   }
 
   if (Object.prototype.toString.call(originalEntry).slice(8, -1) === 'Object') {
