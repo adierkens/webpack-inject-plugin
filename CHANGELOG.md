@@ -1,3 +1,15 @@
+# v1.5.4 (Mon Jan 06 2020)
+
+#### 🐛  Bug Fix
+
+- Fix async and dynamic entry functions [#42](https://github.com/adierkens/webpack-inject-plugin/pull/42) (adierkens@users.noreply.github.com)
+
+#### Authors: 1
+
+- adierkens@users.noreply.github.com
+
+---
+
 # v1.5.3 (Thu Aug 01 2019)
 
 #### 🐛  Bug Fix
