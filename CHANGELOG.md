@@ -1,3 +1,15 @@
+# v1.5.5 (Thu Nov 19 2020)
+
+#### 🐛  Bug Fix
+
+- move types packages to dev dependencies [#51](https://github.com/adierkens/webpack-inject-plugin/pull/51) ([@spentacular](https://github.com/spentacular))
+
+#### Authors: 1
+
+- Spencer Hamm ([@spentacular](https://github.com/spentacular))
+
+---
+
 # v1.5.4 (Mon Jan 06 2020)
 
 #### 🐛  Bug Fix
