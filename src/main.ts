@@ -108,7 +108,7 @@ export function injectEntry(
   if (Object.prototype.toString.call(originalEntry).slice(8, -1) === 'Object') {
     return Object.entries(originalEntry).reduce(
       (a: Record<string, EntryType>, [key, entry]) => {
-        if (filterFunc(key)) {
+        if (filterFunc(key) || key === "import") {
           a[key] = injectEntry(entry, newEntry, options);
         } else {
           a[key] = entry;
@@ -142,11 +142,11 @@ export default class WebpackInjectPlugin {
     const newEntry = path.resolve(__dirname, `${FAKE_LOADER_NAME}?id=${id}!`);
 
     registry[id] = this.loader;
-
     compiler.options.entry = injectEntry(
       compiler.options.entry,
       newEntry,
       this.options
     );
+
   }
 }
