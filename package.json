@@ -1,6 +1,6 @@
 {
   "name": "@bpnetguy/webpack-inject-plugin",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A webpack plugin to dynamically inject code into the bundle.",
   "main": "dist/main.js",
   "scripts": {
