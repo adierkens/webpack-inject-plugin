@@ -1,6 +1,6 @@
 {
   "name": "@bpnetguy/webpack-inject-plugin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A webpack plugin to dynamically inject code into the bundle.",
   "main": "dist/main.js",
   "scripts": {
@@ -28,7 +28,7 @@
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },   
+  },
   "private": false,
   "author": "Adam Dierkens <adam@dierkens.com>",
   "license": "MIT",
