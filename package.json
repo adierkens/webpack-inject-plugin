@@ -1,5 +1,5 @@
 {
-  "name": "webpack-inject-plugin",
+  "name": "@bpnetguy/webpack-inject-plugin",
   "version": "2.0.0",
   "description": "A webpack plugin to dynamically inject code into the bundle.",
   "main": "dist/main.js",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adierkens/webpack-inject-plugin.git"
+    "url": "git+https://github.com/bpnetguy/webpack-inject-plugin.git"
   },
   "keywords": [
     "webpack",
@@ -28,7 +28,8 @@
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
+  },   
+  "private": false,
   "author": "Adam Dierkens <adam@dierkens.com>",
   "license": "MIT",
   "bugs": {
