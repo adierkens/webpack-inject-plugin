@@ -138,8 +138,6 @@ export default class WebpackInjectPlugin {
   apply(compiler: Compiler) {
     const id = this.options.loaderID!;
     const newEntry = path.resolve(__dirname, `${FAKE_LOADER_NAME}?id=${id}!`);
-
-    debugger;
     registry[id] = this.loader;
     compiler.options.entry = injectEntry(
       compiler.options.entry,
