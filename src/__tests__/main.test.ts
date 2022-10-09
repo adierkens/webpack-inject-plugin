@@ -1,55 +1,7 @@
-import { EntryFunc } from 'webpack';
 import { injectEntry, ENTRY_ORDER } from '../main';
 
 describe('injectEntry', () => {
-  it('appends to the entry config correctly', () => {
-    expect(injectEntry(undefined, 'foo', {})).toEqual('foo');
-    expect(injectEntry(['original'], 'added', {})).toEqual([
-      'added',
-      'original'
-    ]);
-    expect(injectEntry('original', 'added', {})).toEqual(['added', 'original']);
-    expect(injectEntry(['foo', 'bar'], 'baz', {})).toEqual([
-      'foo',
-      'baz',
-      'bar'
-    ]);
-    expect(injectEntry(['foo', 'bar', 'baz', 'blah'], 'aaa', {})).toEqual([
-      'foo',
-      'bar',
-      'baz',
-      'aaa',
-      'blah'
-    ]);
-    expect(
-      injectEntry(
-        {
-          foo: 'bar',
-          another: ['an', 'array']
-        },
-        'added',
-        {}
-      )
-    ).toEqual({
-      foo: ['added', 'bar'],
-      another: ['an', 'added', 'array']
-    });
-
-    // This dynamic entry function will return {foo: bar} on first call, then {foo: baz} on the next call
-    let first = true;
-    const entryFunc = injectEntry(
-      async () => {
-        return { foo: first ? 'bar' : 'baz' };
-      },
-      'added',
-      {}
-    ) as EntryFunc;
-
-    expect(entryFunc()).resolves.toEqual({ foo: ['added', 'bar'] });
-    first = false;
-    expect(entryFunc()).resolves.toEqual({ foo: ['added', 'baz'] });
-  });
-
+ 
   it('appends to only the specified entry', () => {
     expect(injectEntry(undefined, 'foo', { entryName: 'bar' })).toBe('foo');
     expect(

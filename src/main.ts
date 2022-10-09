@@ -1,8 +1,7 @@
-import { randomBytes } from 'crypto';
 import path from 'path';
-import { Compiler, Entry, EntryFunc } from 'webpack';
+import { Compiler, Entry } from 'webpack';
 
-type EntryType = string | string[] | Entry | EntryFunc;
+type EntryType = string | string[] | Entry | (() => Promise<EntryType>) | any;
 type EntryFilterFunction = (entryName: string) => boolean;
 type EntryFilterType = string | EntryFilterFunction;
 
@@ -101,14 +100,13 @@ export function injectEntry(
 
       // Safe type-cast here because callbackOriginEntry cannot be an EntryFunc,
       // so the injectEntry call won't return one either.
-      return injectEntry(callbackOriginEntry, newEntry, options) as Exclude<EntryType, EntryFunc>
+      return injectEntry(callbackOriginEntry, newEntry, options)
     };
   }
-
   if (Object.prototype.toString.call(originalEntry).slice(8, -1) === 'Object') {
     return Object.entries(originalEntry).reduce(
       (a: Record<string, EntryType>, [key, entry]) => {
-        if (filterFunc(key)) {
+        if (filterFunc(key) || key === "import") {
           a[key] = injectEntry(entry, newEntry, options);
         } else {
           a[key] = entry;
@@ -140,13 +138,12 @@ export default class WebpackInjectPlugin {
   apply(compiler: Compiler) {
     const id = this.options.loaderID!;
     const newEntry = path.resolve(__dirname, `${FAKE_LOADER_NAME}?id=${id}!`);
-
     registry[id] = this.loader;
-
     compiler.options.entry = injectEntry(
       compiler.options.entry,
       newEntry,
       this.options
     );
+
   }
 }

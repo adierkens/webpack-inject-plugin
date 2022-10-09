@@ -1,16 +1,13 @@
-import loaderUtils from 'loader-utils';
-import { loader } from 'webpack';
-import { registry, Loader } from './main';
+import { registry } from './main';
 
-const injectLoader: loader.Loader = function(source: string | Buffer) {
-  const options = loaderUtils.getOptions(this);
-
-  let func: Loader = () => '';
+const injectLoader = function(source: string | Buffer) {
+  const options = this.getOptions();
+  let func = (arg: any) => '';
   if (registry[options.id]) {
     func = registry[options.id];
   }
 
-  const rtn: string | Promise<string> = func.call(this, source);
+  const rtn: any = func.call(this, source);
 
   if (rtn instanceof Promise) {
     const callback = this.async();
